@@ -7,6 +7,7 @@ public class TrueFormController : MonoBehaviour
 {
     Animator animator;
     private PlayerManager playerManager;
+    WeaponScript weaponScript;
 
 
 
@@ -17,7 +18,7 @@ public class TrueFormController : MonoBehaviour
     [SerializeField] private float normalGravity = 3f;
     [SerializeField] private float fallGravity = 6f;
     [SerializeField] private float lowJumpGravity = 8f;
-    [SerializeField] private float maxFallSpeed = 15f;
+    [SerializeField] private float maxFallSpeed = 11f;
     [SerializeField] private float groundCheckOffset = 0.6f;
     [SerializeField] private Vector2 groundCheckSize = new Vector2(0.8f, 0.1f);
     [SerializeField] private LayerMask groundLayer;
@@ -30,6 +31,8 @@ public class TrueFormController : MonoBehaviour
     [SerializeField] private Collider2D playerCollider;
 
     [SerializeField] private bool isGrounded;
+
+    [SerializeField] GameObject Weapon;
 
     float jumpButtonPressedTime = 0f;
     bool jumping;
@@ -54,10 +57,13 @@ public class TrueFormController : MonoBehaviour
 
 
     [Header("Parry Settings")]
-    [SerializeField] private bool isParrying = false;
+    [SerializeField] public bool isParrying = false;
+    [SerializeField] private bool IsAbleToParry = true;
     [SerializeField] private float parryWindow = 0.1f;
     [SerializeField] private float parryDuration = 0.5f;
-    [SerializeField] private float parryCooldown = 4f;
+    [SerializeField] private float parryCooldown = 0.7f;
+
+    [SerializeField] private bool isParrySuccessful = false;
 
     [SerializeField] GameObject ParryHitbox;
     [SerializeField] GameObject Hitbox;
@@ -75,6 +81,8 @@ public class TrueFormController : MonoBehaviour
 
     void Awake()
     {
+        maxFallSpeed = 11f;
+        parryCooldown = 0.7f;
         jumpForce = 15f;
         parryWindow = 0.1f;
         parryDuration = 0.5f;
@@ -83,6 +91,7 @@ public class TrueFormController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         playerCollider = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
+        weaponScript = GetComponentInChildren<WeaponScript>();
 
         audioSource.playOnAwake = false;
         audioSource.loop = false;
@@ -102,12 +111,21 @@ public class TrueFormController : MonoBehaviour
 
     void Update()
     {
+
+        if (isParrying)
+        {
+            Weapon.SetActive(false);
+        }
+        else
+        {
+            Weapon.SetActive(true);
+        }
         FaceCursor();
 
 
         animator.SetBool("IsRunning", Mathf.Abs(rb.linearVelocity.x) > 0.1f && isGrounded);
-        animator.SetBool("IsFlying", rb.linearVelocity.y > 0.1f && !isGrounded);
-        animator.SetBool("IsFlying", rb.linearVelocity.y < -0.1f && !isGrounded);
+        animator.SetBool("IsFlying", rb.linearVelocity.y != 0 && !isGrounded);
+
         animator.SetBool("IsIdle",
         Mathf.Abs(rb.linearVelocity.x) < 0.1f &&
         isGrounded);
@@ -117,7 +135,7 @@ public class TrueFormController : MonoBehaviour
         isGrounded = Physics2D.OverlapBox(checkPosition, groundCheckSize, 0f, groundLayer);
         moveInput = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Space) && playerManager.CanMove)
+        if (Input.GetKeyDown(KeyCode.Space) && playerManager.CanMove && isParrying == false)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             animator.SetTrigger("WingAnimation");
@@ -178,8 +196,9 @@ public class TrueFormController : MonoBehaviour
         //}
 
 
-        if(Input.GetKeyDown(KeyCode.LeftShift) && !isParrying && playerManager.CanMove)
+        if(Input.GetKeyDown(KeyCode.F) && IsAbleToParry && playerManager.CanMove)
         {
+            animator.SetTrigger("Parry");
             StartCoroutine(StartParry());
         }
     }
@@ -273,6 +292,7 @@ public class TrueFormController : MonoBehaviour
         isParrying = true;
         fallGravity = -1f;
         rb.linearVelocity *= 0.5f;
+        IsAbleToParry = false;
 
         yield return new WaitForSeconds(parryWindow);
         ParryHitbox.SetActive(true);
@@ -280,26 +300,51 @@ public class TrueFormController : MonoBehaviour
         animator.SetBool("IsParrying", true);
 
         yield return new WaitForSeconds(parryDuration);
-        isParrying = false;
         ParryHitbox.SetActive(false);
-        Hitbox.SetActive(true);
+        if (!isParrySuccessful)
+        {
+            Hitbox.SetActive(true);
+
+        }
+        else
+        {
+            // If parry was successful, you might want to keep the Hitbox disabled for a short duration
+            StartCoroutine(ParrySuccess(2f)); // Adjust the duration as needed
+        }
+        isParrying = false  ;
         animator.SetBool("IsParrying", false);
         fallGravity = 6f;
         rb.linearVelocity *= 1f;
 
         yield return new WaitForSeconds(parryCooldown);
+        IsAbleToParry = true;
+        isParrySuccessful = false;
+    }
+
+    IEnumerator ParrySuccess(float delay)
+    {
+
+        yield return new WaitForSeconds(delay);
+        Hitbox.SetActive(true);
+
     }
 
     public void Parried()
     {
-        // This method can be called when the player successfully parries an attack
-        Debug.Log("Parry successful!");
-        ImpactFeedbackManager.Instance.TriggerHitstop(0.06f);
+        if(!isParrySuccessful)
+        {
+            // This method can be called when the player successfully parries an attack
+            Debug.Log("Parry successful!");
+            isParrySuccessful = true;
+            weaponScript.AmmoCount = weaponScript.MaxAmmoCount; // Increase ammo count by 1
 
-        // 2. Full ULTRAKILL parry (hitstop + bright screen flash)
-        ImpactFeedbackManager.Instance.TriggerParryFeedback(hitstopDuration: 0.12f, flashDuration: 0.15f);
+            ImpactFeedbackManager.Instance.TriggerHitstop(0.06f);
 
-        // 3. Custom colored flash (e.g., red flash on player damage)
-        ImpactFeedbackManager.Instance.TriggerParryFlash(0.2f, new Color(1f, 1f, 1f, 0.7f));
+            // 2. Full ULTRAKILL parry (hitstop + bright screen flash)
+            ImpactFeedbackManager.Instance.TriggerParryFeedback(hitstopDuration: 0.12f, flashDuration: 0.15f);
+
+            // 3. Custom colored flash (e.g., red flash on player damage)
+            ImpactFeedbackManager.Instance.TriggerParryFlash(0.2f, new Color(1f, 1f, 1f, 0.7f));
+        }
     }
 }

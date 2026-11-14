@@ -54,6 +54,15 @@ TagManager:
   - name: Weapon
     uniqueID: 3793099473
     locked: 0
+  - name: Enemy
+    uniqueID: 3122576741
+    locked: 0
+  - name: EnemyEye
+    uniqueID: 38634687
+    locked: 0
+  - name: Projectile
+    uniqueID: 1747412149
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []

@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c14c8621579540442921c9d1d64d4514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrueFormController
-  walkSpeed: 5
+  walkSpeed: 10
   jumpForce: 10
   normalGravity: 3
   fallGravity: 6
@@ -319,6 +319,7 @@ MonoBehaviour:
   highFrictionMat: {fileID: 6200000, guid: afb76db86214bb94a9f49f9ffa8de58f, type: 2}
   playerCollider: {fileID: 1690417918640304459}
   isGrounded: 0
+  Weapon: {fileID: 4250002600360900805}
   weaponRenderer: {fileID: 3164234407025566341}
   spriteRenderer: {fileID: 6374866419907630210}
   weapon: {fileID: 8443338851092983883}
@@ -330,9 +331,11 @@ MonoBehaviour:
   walkStepInterval: 0.45
   runStepInterval: 0.3
   isParrying: 0
+  IsAbleToParry: 1
   parryWindow: 0.1
   parryDuration: 0.5
-  parryCooldown: 4
+  parryCooldown: 0.7
+  isParrySuccessful: 0
   ParryHitbox: {fileID: 6961128989881161221}
   Hitbox: {fileID: 8577266841831417212}
 --- !u!1 &4250002600360900805
@@ -346,6 +349,7 @@ GameObject:
   - component: {fileID: 8443338851092983883}
   - component: {fileID: 3164234407025566341}
   - component: {fileID: 1147585110493761819}
+  - component: {fileID: 6311508554362943132}
   m_Layer: 6
   m_Name: Weapon
   m_TagString: Untagged
@@ -362,7 +366,7 @@ Transform:
   m_GameObject: {fileID: 4250002600360900805}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 0.031, z: 0}
+  m_LocalPosition: {x: 6.45, y: -0.001, z: 0}
   m_LocalScale: {x: 11.915938, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -441,8 +445,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponScript
   objectToSpawn: {fileID: 3842522285875971285, guid: 44d8d19d5670fb2438c1d7f1feb5714d, type: 3}
+  playerManager: {fileID: 0}
   spawnOffsetDistance: 2
   IsAbleToFire: 1
+  AmmoCount: 5
+  MaxAmmoCount: 5
+--- !u!95 &6311508554362943132
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4250002600360900805}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: de8f4ba0dc0af7e4984304678713462c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6961128989881161221
 GameObject:
   m_ObjectHideFlags: 0

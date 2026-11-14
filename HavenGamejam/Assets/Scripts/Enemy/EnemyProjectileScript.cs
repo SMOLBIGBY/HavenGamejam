@@ -8,7 +8,7 @@ public class EnemyProjectileScript : MonoBehaviour
     void Start()
     {
         // Start the coroutine to destroy the projectile after 3 seconds
-        StartCoroutine(ExistTime(2f));
+        StartCoroutine(ExistTime(6f));
     }
     void Update()
     {
