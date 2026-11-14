@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - PlayerProjectile
+  - DamageHitbox
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -48,6 +50,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3854241835
+    locked: 0
+  - name: Weapon
+    uniqueID: 3793099473
     locked: 0
   m_RenderingLayers:
   - Default

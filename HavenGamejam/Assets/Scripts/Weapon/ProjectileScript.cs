@@ -22,4 +22,12 @@ public class ProjectileScript : MonoBehaviour
         yield return new WaitForSeconds(delay);
         Destroy(this.gameObject);
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit Enemy by projectile");
+            Destroy(this.gameObject);
+        }
+    }
 }

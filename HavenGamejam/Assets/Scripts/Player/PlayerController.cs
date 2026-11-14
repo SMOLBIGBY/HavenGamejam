@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(AudioSource))]
@@ -55,6 +56,15 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject Weapon;
 
+    [Header("Parry Settings")]
+    [SerializeField] private bool isParrying = false;
+    [SerializeField] private float parryWindow = 0.1f;
+    [SerializeField] private float parryDuration = 0.5f;
+    [SerializeField] private float parryCooldown = 4f;
+
+    [SerializeField] GameObject ParryHitbox;
+    [SerializeField] GameObject Hitbox;
+
     private float moveInput;
     private Rigidbody2D rb;
     private AudioSource audioSource;
@@ -68,6 +78,8 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        parryWindow = 0.1f;
+        parryDuration = 0.5f;
         playerManager = FindAnyObjectByType<PlayerManager>();
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
@@ -85,6 +97,9 @@ public class PlayerController : MonoBehaviour
         {
             initialWeaponX = Mathf.Abs(weapon.localPosition.x);
         }
+
+        ParryHitbox.SetActive(false);
+        Hitbox.SetActive(true);
     }
 
     void Update()
@@ -161,7 +176,15 @@ public class PlayerController : MonoBehaviour
         //{
         //    LaserGun.SetActive(false);
         //}
+
+
+        if(Input.GetKeyDown(KeyCode.LeftShift) && !isParrying && playerManager.CanMove)
+        {
+            StartCoroutine(StartParry());
+        }
     }
+
+
 
     void FaceCursor()
     {
@@ -180,8 +203,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-
-            rb.linearVelocity = new Vector2(moveInput * currentSpeed, rb.linearVelocity.y);
+            if (!isParrying)
+            {
+                rb.linearVelocity = new Vector2(moveInput * currentSpeed, rb.linearVelocity.y);
+            }
         
             rb.linearVelocity = new Vector2(
             rb.linearVelocity.x,
@@ -242,5 +267,39 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(checkPosition, groundCheckSize);
+    }
+    IEnumerator StartParry()
+    {
+        isParrying = true;
+        fallGravity = -1f;
+        rb.linearVelocity *= 0.5f;
+
+        yield return new WaitForSeconds(parryWindow);
+        ParryHitbox.SetActive(true);
+        Hitbox.SetActive(false);
+        animator.SetBool("IsParrying", true);
+
+        yield return new WaitForSeconds(parryDuration);
+        isParrying = false;
+        ParryHitbox.SetActive(false);
+        Hitbox.SetActive(true);
+        animator.SetBool("IsParrying", false);
+        fallGravity = 6f;
+        rb.linearVelocity *= 1f;
+
+        yield return new WaitForSeconds(parryCooldown);
+    }
+
+    public void Parried()
+    {
+        // This method can be called when the player successfully parries an attack
+        Debug.Log("Parry successful!");
+        ImpactFeedbackManager.Instance.TriggerHitstop(0.06f);
+
+        // 2. Full ULTRAKILL parry (hitstop + bright screen flash)
+        ImpactFeedbackManager.Instance.TriggerParryFeedback(hitstopDuration: 0.12f, flashDuration: 0.15f);
+
+        // 3. Custom colored flash (e.g., red flash on player damage)
+        ImpactFeedbackManager.Instance.TriggerParryFlash(0.2f, new Color(1f, 1f, 1f, 0.7f));
     }
 }

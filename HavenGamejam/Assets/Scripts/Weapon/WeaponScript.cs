@@ -6,15 +6,21 @@ public class WeaponScript : MonoBehaviour
     public GameObject objectToSpawn;       // The prefab you want to spawn
     public float spawnOffsetDistance = 2f; // How far to the right it should spawn
 
-    private Coroutine rechargeCoroutine;
+    public bool IsAbleToFire = true; // Flag to check if the weapon can fire
 
-
+    void Start()
+    {
+        // Ensure the weapon can fire at the start
+        IsAbleToFire = true;
+    }
     void Update()
     {
         // Example: Press Spacebar to trigger the spawn
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && IsAbleToFire)
         {
             SpawnToTheRight();
+            IsAbleToFire = false; // Set to false to prevent immediate firing again
+            StartCoroutine(RechargeDelayCoroutine(0.2f));
         }
     }
 
@@ -31,23 +37,11 @@ public class WeaponScript : MonoBehaviour
     }
 
 
-void StartRecharge()
-{
-    rechargeCoroutine = StartCoroutine(RechargeDelayCoroutine(2f));
-}
 
-public IEnumerator RechargeDelayCoroutine(float delay)
-{
-    yield return new WaitForSeconds(delay);
-    
-}
-
-void StopRecharge()
-{
-    if (rechargeCoroutine != null)
+    public IEnumerator RechargeDelayCoroutine(float delay)
     {
-        StopCoroutine(rechargeCoroutine);
-        rechargeCoroutine = null;
+        yield return new WaitForSeconds(delay);
+        IsAbleToFire = true;
     }
-}
+
 }
