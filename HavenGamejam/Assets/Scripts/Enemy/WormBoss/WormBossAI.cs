@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyCharger : MonoBehaviour
 {
     [Header("Movement & Rotation Settings")]
-    public float moveSpeed = 3f;
-    public float turnSpeed = 180f;          // Degrees per second while chasing
+    public float moveSpeed = 8f;
+    public float turnSpeed = 60f;          // Degrees per second while chasing
     public float windupTurnSpeed = 90f;     // Slower turn speed while aiming a charge
     public float detectionRange = 10f;
     [Tooltip("Set to -90 if your sprite faces UP by default, or 0 if it faces RIGHT.")]
@@ -24,6 +24,8 @@ public class EnemyCharger : MonoBehaviour
     public GameObject damageHitbox;         // Drag your child DamageHitbox here
     public bool onlyDamageDuringCharge = false;
 
+    WormBossManager wormBossManager;
+
     private Rigidbody2D rb;
     private Transform player;
     private bool isCharging = false;
@@ -31,6 +33,7 @@ public class EnemyCharger : MonoBehaviour
 
     void Start()
     {
+        wormBossManager = FindFirstObjectByType<WormBossManager>();
         chargeIndicator.SetActive(false);
         rb = GetComponent<Rigidbody2D>();
         cooldownTimer = chargeCooldown;
@@ -49,6 +52,8 @@ public class EnemyCharger : MonoBehaviour
 
     void Update()
     {
+        moveSpeed = 8 * wormBossManager.Multiplier;
+        turnSpeed = 60 * wormBossManager.Multiplier;
         if (player == null || isCharging) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);

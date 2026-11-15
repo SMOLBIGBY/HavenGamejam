@@ -2,33 +2,54 @@ using UnityEngine;
 
 public class WormBossManager : MonoBehaviour
 {
-    [SerializeField] float maxHealth = 100f;
-    [SerializeField] float currentHealth = 100f;
+    [SerializeField] public float maxHealth = 1000f;
+    [SerializeField] public float currentHealth = 1000f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public float CurrentHealthToMaxHealthRatio = 1f;
+    public float Multiplier = 1f;
+
     void Start()
     {
-        maxHealth = 100f;
-        currentHealth = maxHealth; // Initialize current health to max at the start
+        currentHealth = maxHealth;
+        UpdateMultiplier();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        UpdateMultiplier();
+    }
+
+    private void UpdateMultiplier()
+    {
+        // Guard against dividing by zero if maxHealth is 0
+        if (maxHealth <= 0f) return;
+
+        // Clamp currentHealth so it doesn't go negative and break the ratio
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+        // Fixed: currentHealth divided by maxHealth (gives 1.0 at full HP, 0.2 at 20% HP)
+        CurrentHealthToMaxHealthRatio = currentHealth / maxHealth;
+
+        // Smooth curve: 1.0x at 100% HP, ~2.0x at 20% HP, 2.5x at 0% HP
+        float missingHealth = 1f - CurrentHealthToMaxHealthRatio;
+        Multiplier = 1f + 1.5f * Mathf.Pow(missingHealth, 1.8f);
+
+        Debug.Log(Multiplier);
     }
 
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= 0)
+        UpdateMultiplier();
+
+        if (currentHealth <= 0f)
         {
             Die();
         }
     }
+
     private void Die()
     {
-        // Handle enemy death (e.g., play animation, drop loot, etc.)
         Debug.Log("Worm Boss has been defeated!");
     }
 }
