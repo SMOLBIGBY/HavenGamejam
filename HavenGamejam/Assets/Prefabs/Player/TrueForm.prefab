@@ -86,7 +86,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -440725461
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -821559276507833113, guid: 4679f0ec15013c647bbe74b3ad847937, type: 3}
@@ -418,7 +418,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -501867823
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 5677227905936708281, guid: 00770465aa643bf4198bac0e69cf0c35, type: 3}
@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponScript
   objectToSpawn: {fileID: 3842522285875971285, guid: 44d8d19d5670fb2438c1d7f1feb5714d, type: 3}
-  playerManager: {fileID: 0}
+  playerManager: {fileID: 3711644877433658883}
   spawnOffsetDistance: 2
   IsAbleToFire: 1
   AmmoCount: 5

@@ -22,7 +22,7 @@ public class MainRoomExit : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             
-            StartCoroutine(LoadNextScene(0.5f, 0.5f, 0.5f));
+            StartCoroutine(LoadNextScene(0.5f, 2f, 2f));
         }
     }
 

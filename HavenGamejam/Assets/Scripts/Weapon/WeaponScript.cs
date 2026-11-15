@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class WeaponScript : MonoBehaviour
 {
@@ -7,7 +6,12 @@ public class WeaponScript : MonoBehaviour
     public TrueFormController playerManager; // Reference to the player's TrueFormController script
     public float spawnOffsetDistance = 2f; // How far to the right it should spawn
 
-    public bool IsAbleToFire = true; // Flag to check if the weapon can fire
+    public float fireCooldown = 1f;        // Cooldown duration in seconds
+    private float nextFireTime = 0f;       // Timestamp when the weapon can fire again
+
+    // Read-only property so other scripts can still check IsAbleToFire without accidentally locking it
+    public bool IsAbleToFire => Time.time >= nextFireTime;
+
     public int AmmoCount = 5;
     public int MaxAmmoCount = 5;
 
@@ -17,14 +21,18 @@ public class WeaponScript : MonoBehaviour
     {
         playerManager = FindAnyObjectByType<TrueFormController>();
         animator = GetComponent<Animator>();
-        // Ensure the weapon can fire at the start
-        IsAbleToFire = true;
     }
+
     void Update()
     {
         AmmoCount = Mathf.Clamp(AmmoCount, 0, MaxAmmoCount); // Ensure AmmoCount doesn't exceed MaxAmmoCount
-        // Example: Press Spacebar to trigger the spawn
 
+        if (Input.GetKeyDown(KeyCode.Mouse0) && IsAbleToFire && AmmoCount > 0)
+        {
+            SpawnToTheRight();
+            nextFireTime = Time.time + fireCooldown;
+            AmmoCount -= 1;
+        }
     }
 
     void SpawnToTheRight()
@@ -38,13 +46,4 @@ public class WeaponScript : MonoBehaviour
         // 2. Instantiate the object at that position (matching the spawner's rotation)
         Instantiate(objectToSpawn, spawnPosition, transform.rotation);
     }
-
-
-
-    public IEnumerator RechargeDelayCoroutine(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        IsAbleToFire = true;
-    }
-
 }
