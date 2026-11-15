@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHitboxScript : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class PlayerHitboxScript : MonoBehaviour
         if (other.CompareTag("DamageHitbox"))
         {
             Debug.Log("Die");
+            SceneManager.LoadScene("DeathScene");
         }
     }
 }

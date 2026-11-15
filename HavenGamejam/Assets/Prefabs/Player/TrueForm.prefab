@@ -447,7 +447,7 @@ MonoBehaviour:
   objectToSpawn: {fileID: 3842522285875971285, guid: 44d8d19d5670fb2438c1d7f1feb5714d, type: 3}
   playerManager: {fileID: 3711644877433658883}
   spawnOffsetDistance: 2
-  IsAbleToFire: 1
+  fireCooldown: 1
   AmmoCount: 5
   MaxAmmoCount: 5
 --- !u!95 &6311508554362943132
