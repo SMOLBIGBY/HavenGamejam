@@ -304,6 +304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c14c8621579540442921c9d1d64d4514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrueFormController
+  parrySound: {fileID: 8300000, guid: e63ecfc47e506474fbae88cf54b5fca0, type: 3}
+  flapSound: {fileID: 8300000, guid: d4f828df61c7f71459ae725a8692c470, type: 3}
   walkSpeed: 10
   jumpForce: 10
   normalGravity: 3
@@ -450,6 +452,7 @@ MonoBehaviour:
   fireCooldown: 1
   AmmoCount: 5
   MaxAmmoCount: 5
+  FiringSound: {fileID: 8300000, guid: 810b8e4341ace6243ba9b6535a047c4c, type: 3}
 --- !u!95 &6311508554362943132
 Animator:
   serializedVersion: 7

@@ -8,6 +8,9 @@ public class TrueFormController : MonoBehaviour
     Animator animator;
     private PlayerManager playerManager;
     WeaponScript weaponScript;
+    public AudioClip parrySound;
+
+    public AudioClip flapSound;
 
 
 
@@ -137,6 +140,7 @@ public class TrueFormController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && playerManager.CanMove && isParrying == false)
         {
+            AudioManager.Instance.PlaySFX(flapSound);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             animator.SetTrigger("WingAnimation");
         }
@@ -333,6 +337,7 @@ public class TrueFormController : MonoBehaviour
     {
         if(!isParrySuccessful)
         {
+            AudioManager.Instance.PlaySFX(parrySound);
             // This method can be called when the player successfully parries an attack
             Debug.Log("Parry successful!");
             isParrySuccessful = true;

@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TestScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/MainScreen.unity
+    guid: 7a96075c430e0dd40b8a1b088905e5b7
   - enabled: 1
     path: Assets/Scenes/MainRoom.unity
     guid: 16f3b90574583904da8af29159dc0b07
@@ -18,13 +18,16 @@ EditorBuildSettings:
     path: Assets/Scenes/BossFight.unity
     guid: b067ba76ac7878a4faa89cd7d283d458
   - enabled: 1
-    path: Assets/Scenes/DeathScene.unity
-    guid: 8aac24e0874b1c24795bf3edb4cfc5e3
-  - enabled: 1
     path: Assets/Scenes/BossFight2.unity
     guid: da0eccb9a938e4a44a08f2a3f7dbd904
   - enabled: 1
     path: Assets/Scenes/MainRoomLAST.unity
     guid: a22c030be0ecd1a46892f9668af290b1
+  - enabled: 1
+    path: Assets/Scenes/EndScreen.unity
+    guid: 9b64d33d799d19744931fd14cc41cdf7
+  - enabled: 1
+    path: Assets/Scenes/DeathScene.unity
+    guid: 8aac24e0874b1c24795bf3edb4cfc5e3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

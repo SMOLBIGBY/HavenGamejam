@@ -15,6 +15,10 @@ public class WeaponScript : MonoBehaviour
     public int AmmoCount = 5;
     public int MaxAmmoCount = 5;
 
+    public AudioClip FiringSound;
+
+
+
     Animator animator;
 
     void Start()
@@ -29,6 +33,7 @@ public class WeaponScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && IsAbleToFire && AmmoCount > 0)
         {
+            AudioManager.Instance.PlaySFX(FiringSound);
             SpawnToTheRight();
             nextFireTime = Time.time + fireCooldown;
             AmmoCount -= 1;

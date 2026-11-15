@@ -37,7 +37,7 @@ public class WormBossHitbox : MonoBehaviour
             
             if (wormBossManager != null)
             {
-                wormBossManager.TakeDamage(30);
+                wormBossManager.TakeDamage(45);
             }
 
             // Trigger the flash safely using null-conditional operator
