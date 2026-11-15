@@ -24,14 +24,7 @@ public class WeaponScript : MonoBehaviour
     {
         AmmoCount = Mathf.Clamp(AmmoCount, 0, MaxAmmoCount); // Ensure AmmoCount doesn't exceed MaxAmmoCount
         // Example: Press Spacebar to trigger the spawn
-        if (Input.GetKeyDown(KeyCode.Mouse0) && IsAbleToFire && AmmoCount > 0 && !playerManager.isParrying)
-        {
-            animator.SetTrigger("IsFiring");
-            SpawnToTheRight();
-            IsAbleToFire = false; // Set to false to prevent immediate firing again
-            StartCoroutine(RechargeDelayCoroutine(0.2f));
-            AmmoCount -= 1;
-        }
+
     }
 
     void SpawnToTheRight()

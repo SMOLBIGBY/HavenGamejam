@@ -119,10 +119,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapBox(checkPosition, groundCheckSize, 0f, groundLayer);
         moveInput = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && playerManager.CanMove || Input.GetKeyDown(KeyCode.Space) && playerManager.CanMove && isAbleToFly)
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        }
+
 
         if (Mathf.Abs(moveInput) < 0.01f && isGrounded)
         {
@@ -130,7 +127,19 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+
             playerCollider.sharedMaterial = frictionlessMat;
+        }
+
+        if ( moveInput != 0)
+        {
+            animator.SetBool("IsRunning", true);
+
+        }
+        else
+        {
+            animator.SetBool("IsRunning", false);
+
         }
 
         // Variable jump
@@ -159,14 +168,7 @@ public class PlayerController : MonoBehaviour
 
         HandleFootsteps();
 
-        if (!playerManager.CanMove)
-        {
-            currentSpeed = 0f;
-        }
-        else if (currentSpeed == 0f)
-        {
-            currentSpeed = 5f;
-        }
+
 
         //if (playerManager.CanMove)
         //{
@@ -177,11 +179,6 @@ public class PlayerController : MonoBehaviour
         //    LaserGun.SetActive(false);
         //}
 
-
-        if(Input.GetKeyDown(KeyCode.LeftShift) && !isParrying && playerManager.CanMove)
-        {
-            StartCoroutine(StartParry());
-        }
     }
 
 
@@ -190,11 +187,11 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (mousePosition.x > transform.position.x && !isFacingRight && playerManager.CanMove)
+        if (mousePosition.x > transform.position.x && !isFacingRight)
         {
             Flip();
         }
-        else if (mousePosition.x < transform.position.x && isFacingRight && playerManager.CanMove)
+        else if (mousePosition.x < transform.position.x && isFacingRight)
         {
             Flip();
         }

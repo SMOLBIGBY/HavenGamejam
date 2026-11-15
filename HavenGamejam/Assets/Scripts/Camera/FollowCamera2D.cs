@@ -35,13 +35,32 @@ public class FollowCamera2D : MonoBehaviour
 
     private void Awake()
     {
-        startSize = 12f;
         cam = GetComponent<Camera>();
         cam.orthographic = true;
         cam.orthographicSize = startSize;
 
         if (boundsColliders != null && boundsColliders.Length > 0)
             RecalculateCombinedBounds();
+    }
+
+    // Runs automatically in the Editor whenever you change a value in the Inspector
+    private void OnValidate()
+    {
+        if (cam == null)
+            cam = GetComponent<Camera>();
+
+        if (cam != null)
+        {
+            cam.orthographic = true;
+            cam.orthographicSize = startSize;
+        }
+    }
+
+    private void UpdateCameraSize()
+    {
+        // Removed `startSize = 12f;` so your Inspector value is respected
+        halfHeight = cam.orthographicSize;
+        halfWidth = halfHeight * cam.aspect;
     }
 
     private void Start()
@@ -60,31 +79,7 @@ public class FollowCamera2D : MonoBehaviour
     // -----------------------------
     // CAMERA SIZE LOGIC
     // -----------------------------
-    private void UpdateCameraSize()
-    {
-        //if (_stateManager != null && _stateManager.IsBossfight && _stateManager.IsFishing)
-        //{
-        //    // Smooth zoom to bossfight size
-        //    cam.orthographicSize = Mathf.Lerp(
-        //        cam.orthographicSize,
-        //        targetSize,
-        //        Time.deltaTime * zoomSpeed
-        //    );
-        //}
-        //else
-        //{
-        //    // Dynamic width adjustment
-        //    float windowAspect = (float)Screen.width / Screen.height;
-        //    float baseSize = targetWidth / 2f;
 
-        //    cam.orthographicSize = windowAspect < 1f
-        //        ? targetWidth / windowAspect / 2f
-        //        : baseSize;
-        //}
-
-        halfHeight = cam.orthographicSize;
-        halfWidth = halfHeight * cam.aspect;
-    }
 
     // -----------------------------
     // FOLLOW TARGET LOGIC
