@@ -35,7 +35,7 @@ public class MainRoomExit : MonoBehaviour
         yield return new WaitForSeconds(seconddelay);
         blackScreenScript.FadeIn(0.5f);
         yield return new WaitForSeconds(thirddelay);
-        SceneManager.LoadScene("EndScreen");
+        SceneManager.LoadScene("Boss1");
         // Load the next scene
     }
 }

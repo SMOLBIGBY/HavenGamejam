@@ -1132,9 +1132,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1546046552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d337d7dde1b2821419e48bc4553cad8f, type: 3}
+  m_Script: {fileID: 11500000, guid: e1e8b6412de6c2d4898591e5d9655b55, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MainRoomExit
+  m_EditorClassIdentifier: Assembly-CSharp::LastRoomExit
   DoorAnimation: {fileID: 1553521117}
 --- !u!1 &1553521117
 GameObject:
