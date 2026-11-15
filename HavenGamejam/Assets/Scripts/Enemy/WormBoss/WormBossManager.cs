@@ -1,7 +1,10 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class WormBossManager : MonoBehaviour
 {
+    BlackScreenFade blackScreenFade;
     [SerializeField] public float maxHealth = 1000f;
     [SerializeField] public float currentHealth = 1000f;
 
@@ -10,6 +13,7 @@ public class WormBossManager : MonoBehaviour
 
     void Start()
     {
+        blackScreenFade = FindFirstObjectByType<BlackScreenFade>();
         currentHealth = maxHealth;
         UpdateMultiplier();
     }
@@ -44,12 +48,14 @@ public class WormBossManager : MonoBehaviour
 
         if (currentHealth <= 0f)
         {
-            Die();
+            StartCoroutine(Die(1f));
         }
     }
 
-    private void Die()
+    IEnumerator Die(float delay)
     {
-        Debug.Log("Worm Boss has been defeated!");
+        blackScreenFade.FadeIn(0.5f);
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("BossFight2");
     }
 }

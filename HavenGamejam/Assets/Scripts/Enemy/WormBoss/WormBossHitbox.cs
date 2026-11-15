@@ -1,10 +1,5 @@
 using UnityEngine;
 
-public interface ICanBeFlashed
-{
-    void Flash();
-}
-
 public class WormBossHitbox : MonoBehaviour
 {
     private WormBossManager wormBossManager;
