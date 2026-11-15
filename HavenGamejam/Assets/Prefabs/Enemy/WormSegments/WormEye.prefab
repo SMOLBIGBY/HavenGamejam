@@ -83,7 +83,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 38634687
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -112968808170193824, guid: 1f510e3806faf6f44a3a227a3eda45db, type: 3}
@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormEyeScript
   prefab: {fileID: 6654107540251236527, guid: 7ccee637316d5cd4097e2ae4e9b7c749, type: 3}
-  minCooldown: 1
-  maxCooldown: 3
+  minCooldown: 3
+  maxCooldown: 9
 --- !u!1 &8265962481808185835
 GameObject:
   m_ObjectHideFlags: 0

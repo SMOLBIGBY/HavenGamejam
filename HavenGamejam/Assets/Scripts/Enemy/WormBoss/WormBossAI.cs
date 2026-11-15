@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyCharger : MonoBehaviour
 {
     [Header("Movement & Rotation Settings")]
-    public float moveSpeed = 8f;
+    public float moveSpeed = 6f;
     public float turnSpeed = 60f;          // Degrees per second while chasing
     public float windupTurnSpeed = 90f;     // Slower turn speed while aiming a charge
     public float detectionRange = 10f;
@@ -52,7 +52,7 @@ public class EnemyCharger : MonoBehaviour
 
     void Update()
     {
-        moveSpeed = 8 * wormBossManager.Multiplier;
+        moveSpeed = 6 * wormBossManager.Multiplier;
         turnSpeed = 60 * wormBossManager.Multiplier;
         if (player == null || isCharging) return;
 

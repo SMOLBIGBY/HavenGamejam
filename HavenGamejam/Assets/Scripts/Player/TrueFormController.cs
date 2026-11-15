@@ -297,10 +297,10 @@ public class TrueFormController : MonoBehaviour
         fallGravity = -1f;
         rb.linearVelocity *= 0.5f;
         IsAbleToParry = false;
-
-        yield return new WaitForSeconds(parryWindow);
         ParryHitbox.SetActive(true);
         Hitbox.SetActive(false);
+
+        yield return new WaitForSeconds(parryWindow);
         animator.SetBool("IsParrying", true);
 
         yield return new WaitForSeconds(parryDuration);

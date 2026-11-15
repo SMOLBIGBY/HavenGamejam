@@ -48,7 +48,7 @@ public class FalseSunManager : MonoBehaviour
 
         if (currentHealth <= 0f)
         {
-            StartCoroutine(Die(1f));
+            StartCoroutine(Die(0.2f));
         }
     }
 

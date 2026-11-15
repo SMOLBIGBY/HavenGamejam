@@ -14,7 +14,7 @@ public class DeathScipt : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("MainRoom");
+            SceneManager.LoadScene("Boss1");
         }
     }
 }
