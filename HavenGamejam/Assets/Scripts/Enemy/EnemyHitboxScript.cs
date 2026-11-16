@@ -24,6 +24,7 @@ public class EnemyHitboxScript : MonoBehaviour
         {
             Debug.Log("Enemy Hit by Player Projectile");
             TakeDamage(10f); // Example damage value
+            
         }
     }
 

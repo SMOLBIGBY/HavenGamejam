@@ -49,14 +49,14 @@ public class WormBossManager : MonoBehaviour
 
         if (currentHealth <= 0f)
         {
-            StartCoroutine(Die(1f));
+            StartCoroutine(Die(0.2f));
         }
     }
 
     IEnumerator Die(float delay)
     {
-        blackScreenFade.FadeIn(0.5f);
+        blackScreenFade.FadeIn(0.4f);
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("BossFight2");
+        SceneManager.LoadScene("MainRoomLAST");
     }
 }

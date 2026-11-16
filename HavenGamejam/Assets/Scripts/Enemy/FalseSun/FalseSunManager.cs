@@ -54,8 +54,8 @@ public class FalseSunManager : MonoBehaviour
 
     IEnumerator Die(float delay)
     {
-        blackScreenFade.FadeIn(0.5f);
+        blackScreenFade.FadeIn(0.2f);
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("MainRoomLAST");
+        SceneManager.LoadScene("BossFight");
     }
 }

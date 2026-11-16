@@ -31,7 +31,7 @@ public class PreBossRoomExit : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
 
-        SceneManager.LoadScene("BossFight");
+        SceneManager.LoadScene("BossFight2");
         // Load the next scene
     }
 }

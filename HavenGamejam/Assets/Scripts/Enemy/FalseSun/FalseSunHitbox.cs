@@ -38,7 +38,7 @@ public class FalseSunHitbox : MonoBehaviour
             
             if (falseSunManager != null)
             {
-                falseSunManager.TakeDamage(45);
+                falseSunManager.TakeDamage(30);
             }
 
             // Trigger the flash safely using null-conditional operator

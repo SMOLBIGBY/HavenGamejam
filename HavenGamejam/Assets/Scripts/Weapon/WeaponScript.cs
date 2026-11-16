@@ -6,7 +6,7 @@ public class WeaponScript : MonoBehaviour
     public TrueFormController playerManager; // Reference to the player's TrueFormController script
     public float spawnOffsetDistance = 2f; // How far to the right it should spawn
 
-    public float fireCooldown = 1f;        // Cooldown duration in seconds
+    public float fireCooldown = 0.6f;        // Cooldown duration in seconds
     private float nextFireTime = 0f;       // Timestamp when the weapon can fire again
 
     // Read-only property so other scripts can still check IsAbleToFire without accidentally locking it

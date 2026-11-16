@@ -13,8 +13,8 @@ public class WormEyeScript : MonoBehaviour
 
     void Start()
     {
-        minCooldown = 4f;
-        maxCooldown = 9f;
+        minCooldown = 7f;
+        maxCooldown = 15f;
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) player = playerObj.transform;
 

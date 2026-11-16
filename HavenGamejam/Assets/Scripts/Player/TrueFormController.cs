@@ -64,7 +64,8 @@ public class TrueFormController : MonoBehaviour
     [SerializeField] private bool IsAbleToParry = true;
     [SerializeField] private float parryWindow = 0.1f;
     [SerializeField] private float parryDuration = 0.5f;
-    [SerializeField] private float parryCooldown = 0.7f;
+    [SerializeField] private float parryCooldown = 0.8f;
+    [SerializeField] private bool AreIFramesActive = false;
 
     [SerializeField] private bool isParrySuccessful = false;
 
@@ -85,7 +86,7 @@ public class TrueFormController : MonoBehaviour
     void Awake()
     {
         maxFallSpeed = 11f;
-        parryCooldown = 0.7f;
+        parryCooldown = 1f;
         jumpForce = 15f;
         parryWindow = 0.1f;
         parryDuration = 0.5f;
@@ -200,13 +201,31 @@ public class TrueFormController : MonoBehaviour
         //}
 
 
-        if(Input.GetKeyDown(KeyCode.F) && IsAbleToParry && playerManager.CanMove)
+        if(Input.GetKeyDown(KeyCode.Mouse1) && IsAbleToParry && playerManager.CanMove)
         {
             animator.SetTrigger("Parry");
             StartCoroutine(StartParry());
         }
     }
 
+
+    void TriggerFlash()
+    {
+        StartCoroutine(SetFlashAmount(0.2f));
+    }
+
+
+    IEnumerator SetFlashAmount(float delay)
+    {
+        spriteRenderer.color =  Color.grey;
+        yield return new WaitForSeconds(delay);
+        spriteRenderer.color =  Color.white;
+        yield return new WaitForSeconds(delay);
+        if (AreIFramesActive)
+        {
+            StartCoroutine(SetFlashAmount(delay));
+        }
+    }
 
 
     void FaceCursor()
@@ -313,7 +332,7 @@ public class TrueFormController : MonoBehaviour
         else
         {
             // If parry was successful, you might want to keep the Hitbox disabled for a short duration
-            StartCoroutine(ParrySuccess(2f)); // Adjust the duration as needed
+            StartCoroutine(ParrySuccess(1f)); // Adjust the duration as needed
         }
         isParrying = false  ;
         animator.SetBool("IsParrying", false);
@@ -327,8 +346,10 @@ public class TrueFormController : MonoBehaviour
 
     IEnumerator ParrySuccess(float delay)
     {
-
+        TriggerFlash();
+        AreIFramesActive = true;
         yield return new WaitForSeconds(delay);
+        AreIFramesActive = false;
         Hitbox.SetActive(true);
 
     }
